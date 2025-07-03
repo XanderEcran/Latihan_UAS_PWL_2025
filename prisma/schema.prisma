@@ -1,0 +1,34 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model organisasi{
+  id Int @id @default(autoincrement())
+  namaOrganisasi String
+  ketuaOrganisasi String
+  noKontak String
+  tahunDibentuk DateTime
+  pembina String
+  kegiatan kegiatan[]
+}
+
+model kegiatan{
+  id Int @id @default(autoincrement())
+  judul_kegiatan String
+  idOrganisasi Int
+  tanggalKegiatan DateTime
+  lokasi String
+  jenisKegiatan String
+  deskripsiSingkat String
+  tautanPendaftaran String?
+  organisasi organisasi @relation(fields: [idOrganisasi], references: [id])
+}
