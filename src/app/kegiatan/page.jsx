@@ -2,34 +2,36 @@
 
 import {useState, useEffect} from 'react';
 
-export default function OrganisasiPage(){
-    const [organisasis, setOrganisasis] = useState([]);
+export default function KegiatanPage(){
+    const [kegiatans, setKegiatans] = useState([]);
     const [formVisible, setFormVisible] = useState([]);
-    const [namaOrganisasi, setNamaOrganisasi] = useState('');
-    const [ketuaOrganisasi, setKetuaOrganisasi] = useState('');
-    const [noKontak, setNoKontak] = useState('');
-    const [tahunDibentuk, setTahunDibentuk] = useState('');
-    const [pembina, setPembina] = useState('');
+    const [judulKegiatan, setJudulKegiatan] = useState('');
+    const [idOrganisasi, setIdOrganisasi] = useState('');
+    const [tanggalKegiatan, setTanggalKegiatan] = useState('');
+    const [lokasi, setLokasi] = useState('');
+    const [jenisKegiatan, setJenisKegiatan] = useState('');
+    const [deskripsiSingkat, setDeskripsiSingkat] = useState('');
+    const [tautanPendaftaran, setTautanPendaftaran] = useState('');
     const [editId, setEditId] = useState(null);
     const [msg, setMsg] = useState('');
 
-    const fetchOrganisasis = async () => {
-        const res = await fetch('/api/organisasi');
+    const fetchKegiatans = async () => {
+        const res = await fetch('/api/kegiatan');
         const data = await res.json();
-        setOrganisasis(data);
+        setKegiatans(data);
     };
     useEffect(() => {
-        fetchOrganisasis();
+        fetchKegiatans();
     }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!namaOrganisasi || !ketuaOrganisasi || !noKontak || !tahunDibentuk || !pembina){
+        if (!judul_kegiatan || !idOrganisasi || !tanggalKegiatan || !lokasi || !jenisKegiatan || !deskripsiSingkat || !tautanPendaftaran){
             setMsg('Semua Filed Wajib Diisi');
             return;
         }
 
-        const formattedTahun = new Date(tahunDibentuk).toISOString()
+        const formattedTanggal = new Date(tanggalKegiatan).toISOString()
         if(isNaN(Date.parse(formattedTahun))){
             setMsg('Tahun tidak valid');
             return;
@@ -37,11 +39,13 @@ export default function OrganisasiPage(){
 
         const data = {
             id: editId,
-            namaOrganisasi,
-            ketuaOrganisasi,
-            noKontak,
-            tahunDibentuk: formattedTahun,
-            pembina,
+            judulKegiatan,
+            idOrganisasi,
+            tanggalKegiatan : formattedTanggal,
+            lokasi,
+            jenisKegiatan,
+            deskripsiSingkat,
+            tautanPendaftaran,
         };
 
         const method = editId? 'PUT' : 'POST';
