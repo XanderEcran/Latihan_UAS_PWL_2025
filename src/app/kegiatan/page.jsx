@@ -4,6 +4,7 @@ import {useState, useEffect} from 'react';
 
 export default function KegiatanPage(){
     const [kegiatans, setKegiatans] = useState([]);
+    const [organisasis, setOrganisasis] = useState([]);
     const [formVisible, setFormVisible] = useState([]);
     const [judulKegiatan, setJudulKegiatan] = useState('');
     const [idOrganisasi, setIdOrganisasi] = useState('');
@@ -20,8 +21,14 @@ export default function KegiatanPage(){
         const data = await res.json();
         setKegiatans(data);
     };
+    const fetchOrganisasis = async () => {
+        const res = await fetch('/api/organisasi');
+        const data = await res.json();
+        setOrganisasis(data);
+    };
     useEffect(() => {
         fetchKegiatans();
+        fetchOrganisasis();
     }, []);
 
     const handleSubmit = async (e) => {
@@ -32,7 +39,7 @@ export default function KegiatanPage(){
         }
 
         const formattedTanggal = new Date(tanggalKegiatan).toISOString()
-        if(isNaN(Date.parse(formattedTahun))){
+        if(isNaN(Date.parse(formattedTanggal))){
             setMsg('Tahun tidak valid');
             return;
         }
@@ -49,7 +56,7 @@ export default function KegiatanPage(){
         };
 
         const method = editId? 'PUT' : 'POST';
-        const res = await fetch('/api/organisasi', {
+        const res = await fetch('/api/kegiatan', {
             method,
             headers: {'Content-Type': "application/json"},
             body: JSON.stringify(data),
@@ -57,24 +64,28 @@ export default function KegiatanPage(){
 
         if(res.ok){
             setMsg('Berhasil disimpan');
-            setNamaOrganisasi('');
-            setKetuaOrganisasi('');
-            setNoKontak('');
-            setTahunDibentuk('');
-            setPembina('');
+            setJudulKegiatan('');
+            setIdOrganisasi('');
+            setTanggalKegiatan('');
+            setLokasi('');
+            setJenisKegiatan('');
+            setDeskripsiSingkat('');
+            setTautanPendaftaran('');
             setEditId(null);
             setFormVisible(false);
-            fetchOrganisasis();
+            fetchKegiatans();
         }else{
             setMsg('Gagal menyimpan data')
         }
     };
     const handleEdit = (item) => {
-        setNamaOrganisasi(item.namaOrganisasi);
-        setKetuaOrganisasi(item.ketuaOrganisasi);
-        setNoKontak(item.noKontak);
-        setTahunDibentuk(item.tahunDibentuk.split('T')[0]);
-        setPembina(item.pembina);
+        setJudulKegiatan(item.judulKegiatan);
+        setIdOrganisasi(item.idOrganisasi);
+        setTanggalKegiatan(item.tanggalKegiatan.split('T')[0]);
+        setLokasi(item.lokasi);
+        setJenisKegiatan(item.jenisKegiatan);
+        setDeskripsiSingkat(item.deskripsiSingkat);
+        setTautanPendaftaran(item.tautanPendaftaran);
         setEditId(item.id);
         setFormVisible(true);
     }
@@ -82,12 +93,12 @@ export default function KegiatanPage(){
     const handleDelete = async (id) => {
         if(!confirm('Yakin ingin hapus data ini')) return;
 
-        await fetch('/api/organisasi', {
+        await fetch('/api/kegiatan', {
             method: 'DELETE',
             headers: {'Content-Type' : 'application/json'},
             body: JSON.stringify({id}),
         })
-        fetchOrganisasis();
+        fetchKegiatans();
     };
 
     return (
@@ -102,7 +113,7 @@ export default function KegiatanPage(){
                     <h3>Input Data Baru</h3>
                     <form onSubmit={handleSubmit}>
                         <div>
-                            <span>Nama Organisasi</span>
+                            <span>Nama Kegiatan</span>
                             <input
                             type= "text"
                             value={namaOrganisasi}
