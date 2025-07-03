@@ -5,7 +5,7 @@ import {useState, useEffect} from 'react';
 export default function KegiatanPage(){
     const [kegiatans, setKegiatans] = useState([]);
     const [organisasis, setOrganisasis] = useState([]);
-    const [formVisible, setFormVisible] = useState([]);
+    const [formVisible, setFormVisible] = useState(false);
     const [judulKegiatan, setJudulKegiatan] = useState('');
     const [idOrganisasi, setIdOrganisasi] = useState('');
     const [tanggalKegiatan, setTanggalKegiatan] = useState('');
@@ -33,16 +33,17 @@ export default function KegiatanPage(){
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!judul_kegiatan || !idOrganisasi || !tanggalKegiatan || !lokasi || !jenisKegiatan || !deskripsiSingkat || !tautanPendaftaran){
+        if (!judulKegiatan || !idOrganisasi || !tanggalKegiatan || !lokasi || !jenisKegiatan || !deskripsiSingkat || !tautanPendaftaran){
             setMsg('Semua Filed Wajib Diisi');
             return;
         }
 
-        const formattedTanggal = new Date(tanggalKegiatan).toISOString()
+        const formattedTanggal = new Date(tanggalKegiatan).toISOString();
         if(isNaN(Date.parse(formattedTanggal))){
             setMsg('Tahun tidak valid');
             return;
         }
+
 
         const data = {
             id: editId,
@@ -116,44 +117,68 @@ export default function KegiatanPage(){
                             <span>Nama Kegiatan</span>
                             <input
                             type= "text"
-                            value={namaOrganisasi}
+                            value={judulKegiatan}
                             onChange={(e) => setJudulKegiatan(e.target.value)}
                             required
                             />
                         </div>
                         <div>
-                            <span>Ketua Organisasi</span>
-                            <input
-                            type= "text"
-                            value={ketuaOrganisasi}
-                            onChange={(e) => setKetuaOrganisasi(e.target.value)}
+                            <span>Nama Organisasi</span>
+                            <select
+                            value={idOrganisasi}
+                            onChange={(e) => setIdOrganisasi(e.target.value)}
                             required
-                            />
+                            >
+                                <option value="">Pilih Organisasi</option>
+                                {organisasis.map((organisasi) => (
+                                    <option key={organisasi.id} value={organisasi.id}>
+                                        {organisasi.namaOrganisasi}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
                         <div>
-                            <span>Nomor Kontak</span>
-                            <input
-                            type= "text"
-                            value={noKontak}
-                            onChange={(e) => setNoKontak(e.target.value)}
-                            required
-                            />
-                        </div>
-                        <div>
-                            <span>Tahun Dibentuk</span>
+                            <span>Tanggal Kegiatan</span>
                             <input
                             type= "date"
-                            value={tahunDibentuk}
-                            onChange={(e) => setTahunDibentuk(e.target.value)}
+                            value={tanggalKegiatan}
+                            onChange={(e) => setTanggalKegiatan(e.target.value)}
                             required
                             />
                         </div>
                         <div>
-                            <span>Nama Pembina</span>
+                            <span>Lokasi</span>
                             <input
                             type= "text"
-                            value={pembina}
-                            onChange={(e) => setPembina(e.target.value)}
+                            value={lokasi}
+                            onChange={(e) => setLokasi(e.target.value)}
+                            required
+                            />
+                        </div>
+                        <div>
+                            <span>Jenis Kegiatan</span>
+                            <input
+                            type= "text"
+                            value={jenisKegiatan}
+                            onChange={(e) => setJenisKegiatan(e.target.value)}
+                            required
+                            />
+                        </div>
+                        <div>
+                            <span>Deskripsi Singkat</span>
+                            <input
+                            type= "text"
+                            value={deskripsiSingkat}
+                            onChange={(e) => setDeskripsiSingkat(e.target.value)}
+                            required
+                            />
+                        </div>
+                        <div>
+                            <span>Tautan Pendaftaran</span>
+                            <input
+                            type= "text"
+                            value={tautanPendaftaran}
+                            onChange={(e) => setTautanPendaftaran(e.target.value)}
                             required
                             />
                         </div>
@@ -169,32 +194,36 @@ export default function KegiatanPage(){
                 <thead>
                     <tr>
                         <th>No</th>
+                        <th>Nama Kegiatan</th>
                         <th>Nama Organisasi</th>
-                        <th>Ketua Organisasi</th>
-                        <th>Nomor Kontak</th>
-                        <th>Tahun Terbentuk</th>
-                        <th>Pembina</th>
+                        <th>Tanggal Kegiatan</th>
+                        <th>Lokasi</th>
+                        <th>Jenis Kegiatan</th>
+                        <th>Deskripsi</th>
+                        <th>Tautan Pendaftaran</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {organisasis.map((item, index) => (
+                    {kegiatans.map((item, index) => (
                         <tr key={item.id}>
                             <td>{index + 1}</td>
-                            <td>{item.namaOrganisasi}</td>
-                            <td>{item.ketuaOrganisasi}</td>
-                            <td>{item.noKontak}</td>
-                            <td>{new Date(item.tahunDibentuk).toISOString().split('T')[0]}</td>
-                            <td>{item.pembina}</td>
+                            <td>{item.judulKegiatan}</td>
+                            <td>{item.organisasi?.namaOrganisasi || "Unknown"}</td>
+                            <td>{new Date(item.tanggalKegiatan).toISOString().split('T')[0]}</td>
+                            <td>{item.lokasi}</td>
+                            <td>{item.jenisKegiatan}</td>
+                            <td>{item.deskripsiSingkat}</td>
+                            <td>{item.tautanPendaftaran}</td>
                             <td>
                             <button onClick={() => handleEdit(item)}>Edit</button>
                             <button onClick={() => handleDelete(item.id)}>Hapus</button>
                             </td>
                         </tr>
                     ))}
-                    {organisasis.length === 0 && (
+                    {kegiatans.length === 0 && (
                         <tr>
-                            <td colSpan="7">Belum ada data</td>
+                            <td colSpan="9">Belum ada data</td>
                         </tr>
                     )}
                 </tbody>

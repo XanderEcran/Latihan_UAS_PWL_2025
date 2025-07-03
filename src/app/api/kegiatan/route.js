@@ -9,29 +9,29 @@ export async function GET(){
     return new Response(JSON.stringify(data), {status:200})
 }
 export async function POST(request) {
-    const {judul_kegiatan, idOrganisasi, tanggalKegiatan, lokasi, jenisKegiatan, deskripsiSingkat, tautanPendaftaran} = await request.json();
+    const {judulKegiatan, idOrganisasi, tanggalKegiatan, lokasi, jenisKegiatan, deskripsiSingkat, tautanPendaftaran} = await request.json();
 
-    if (!judul_kegiatan || !idOrganisasi || !tanggalKegiatan || !lokasi || !jenisKegiatan || !deskripsiSingkat || !tautanPendaftaran){
+    if (!judulKegiatan || !idOrganisasi || !tanggalKegiatan || !lokasi || !jenisKegiatan || !deskripsiSingkat || !tautanPendaftaran){
         return new Response(JSON.stringify({error: 'Semua field wajib diisi'}), {
             status: 400,
         });
     }
     
     const kegiatan = await prisma.kegiatan.create({
-        data : {judul_kegiatan, idOrganisasi, tanggalKegiatan, lokasi, jenisKegiatan, deskripsiSingkat, tautanPendaftaran},
+        data : {judulKegiatan, idOrganisasi: Number(idOrganisasi), tanggalKegiatan, lokasi, jenisKegiatan, deskripsiSingkat, tautanPendaftaran},
     });
     return new Response(JSON.stringify(kegiatan), {status: 201});
     
 }
 
 export async function PUT(request) {
-    const {id, judul_kegiatan, idOrganisasi, tanggalKegiatan, lokasi, jenisKegiatan, deskripsiSingkat, tautanPendaftaran} = await request.json();
-    if(!id || !judul_kegiatan || !idOrganisasi || !tanggalKegiatan || !lokasi || !jenisKegiatan || !deskripsiSingkat || !tautanPendaftaran) return Response.json({error : 'Field Kosong'}, {
+    const {id, judulKegiatan, idOrganisasi, tanggalKegiatan, lokasi, jenisKegiatan, deskripsiSingkat, tautanPendaftaran} = await request.json();
+    if(!id || !judulKegiatan || !idOrganisasi || !tanggalKegiatan || !lokasi || !jenisKegiatan || !deskripsiSingkat || !tautanPendaftaran) return Response.json({error : 'Field Kosong'}, {
         status: 400});
 
     const kegiatan = await prisma.kegiatan.update({
         where: {id},
-        data: {judul_kegiatan, idOrganisasi, tanggalKegiatan, lokasi, jenisKegiatan, deskripsiSingkat, tautanPendaftaran},
+        data: {judulKegiatan, idOrganisasi: Number(idOrganisasi), tanggalKegiatan, lokasi, jenisKegiatan, deskripsiSingkat, tautanPendaftaran},
     });
     return Response.json(kegiatan);
 }

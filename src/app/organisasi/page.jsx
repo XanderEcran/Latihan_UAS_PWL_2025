@@ -4,7 +4,7 @@ import {useState, useEffect} from 'react';
 
 export default function OrganisasiPage(){
     const [organisasis, setOrganisasis] = useState([]);
-    const [formVisible, setFormVisible] = useState([]);
+    const [formVisible, setFormVisible] = useState(false);
     const [namaOrganisasi, setNamaOrganisasi] = useState('');
     const [ketuaOrganisasi, setKetuaOrganisasi] = useState('');
     const [noKontak, setNoKontak] = useState('');

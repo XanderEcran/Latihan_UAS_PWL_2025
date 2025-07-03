@@ -23,7 +23,7 @@ model organisasi{
 
 model kegiatan{
   id Int @id @default(autoincrement())
-  judul_kegiatan String
+  judulKegiatan String
   idOrganisasi Int
   tanggalKegiatan DateTime
   lokasi String
