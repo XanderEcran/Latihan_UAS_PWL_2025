@@ -117,7 +117,7 @@ export default function KegiatanPage(){
                             <input
                             type= "text"
                             value={namaOrganisasi}
-                            onChange={(e) => setNamaOrganisasi(e.target.value)}
+                            onChange={(e) => setJudulKegiatan(e.target.value)}
                             required
                             />
                         </div>
