@@ -1,5 +1,6 @@
 "use client";
 
+import styles from './OrganisasiPage.module.css';
 import {useState, useEffect} from 'react';
 
 export default function OrganisasiPage(){
@@ -87,17 +88,18 @@ export default function OrganisasiPage(){
     };
 
     return (
-        <div>
+        <div className={styles.container}>
             <button
+                className={styles.buttonToggle}
                 onClick={() => setFormVisible(!formVisible)}>
                 {formVisible ? "Tutup Form" : "Tambah Data"}
             </button>
 
             {formVisible && (
-                <div>
+                <div className={styles.formWrapper}>
                     <h3>Input Data Baru</h3>
                     <form onSubmit={handleSubmit}>
-                        <div>
+                        <div className={styles.formGroup}>
                             <span>Nama Organisasi</span>
                             <input
                             type= "text"
@@ -106,7 +108,7 @@ export default function OrganisasiPage(){
                             required
                             />
                         </div>
-                        <div>
+                        <div className={styles.formGroup}>
                             <span>Ketua Organisasi</span>
                             <input
                             type= "text"
@@ -115,7 +117,7 @@ export default function OrganisasiPage(){
                             required
                             />
                         </div>
-                        <div>
+                        <div className={styles.formGroup}>
                             <span>Nomor Kontak</span>
                             <input
                             type= "text"
@@ -124,7 +126,7 @@ export default function OrganisasiPage(){
                             required
                             />
                         </div>
-                        <div>
+                        <div className={styles.formGroup}>
                             <span>Tahun Dibentuk</span>
                             <input
                             type= "date"
@@ -133,7 +135,7 @@ export default function OrganisasiPage(){
                             required
                             />
                         </div>
-                        <div>
+                        <div className={styles.formGroup}>
                             <span>Nama Pembina</span>
                             <input
                             type= "text"
@@ -142,7 +144,7 @@ export default function OrganisasiPage(){
                             required
                             />
                         </div>
-                        <button type="submit">
+                        <button className={styles.submitButton} type="submit">
                             Simpan
                         </button>
                         <p>{msg}</p>
@@ -172,8 +174,8 @@ export default function OrganisasiPage(){
                             <td>{new Date(item.tahunDibentuk).toISOString().split('T')[0]}</td>
                             <td>{item.pembina}</td>
                             <td>
-                            <button onClick={() => handleEdit(item)}>Edit</button>
-                            <button onClick={() => handleDelete(item.id)}>Hapus</button>
+                            <button className={styles.editButton} onClick={() => handleEdit(item)}>Edit</button>
+                            <button className={styles.deleteButton} onClick={() => handleDelete(item.id)}>Hapus</button>
                             </td>
                         </tr>
                     ))}

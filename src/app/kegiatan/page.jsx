@@ -1,5 +1,5 @@
 "use client";
-
+import styles from './KegiatanPage.module.css';
 import {useState, useEffect} from 'react';
 
 export default function KegiatanPage(){
@@ -103,17 +103,18 @@ export default function KegiatanPage(){
     };
 
     return (
-        <div>
+        <div className={styles.container}>
             <button
+                className={styles.buttonToggle}
                 onClick={() => setFormVisible(!formVisible)}>
                 {formVisible ? "Tutup Form" : "Tambah Data"}
             </button>
 
             {formVisible && (
-                <div>
+                <div className={styles.formWrapper}>
                     <h3>Input Data Baru</h3>
                     <form onSubmit={handleSubmit}>
-                        <div>
+                        <div className={styles.formGroup}>
                             <span>Nama Kegiatan</span>
                             <input
                             type= "text"
@@ -122,7 +123,7 @@ export default function KegiatanPage(){
                             required
                             />
                         </div>
-                        <div>
+                        <div className={styles.formGroup}>
                             <span>Nama Organisasi</span>
                             <select
                             value={idOrganisasi}
@@ -137,7 +138,7 @@ export default function KegiatanPage(){
                                 ))}
                             </select>
                         </div>
-                        <div>
+                        <div className={styles.formGroup}>
                             <span>Tanggal Kegiatan</span>
                             <input
                             type= "date"
@@ -146,7 +147,7 @@ export default function KegiatanPage(){
                             required
                             />
                         </div>
-                        <div>
+                        <div className={styles.formGroup}>
                             <span>Lokasi</span>
                             <input
                             type= "text"
@@ -155,7 +156,7 @@ export default function KegiatanPage(){
                             required
                             />
                         </div>
-                        <div>
+                        <div className={styles.formGroup}>
                             <span>Jenis Kegiatan</span>
                             <input
                             type= "text"
@@ -164,7 +165,7 @@ export default function KegiatanPage(){
                             required
                             />
                         </div>
-                        <div>
+                        <div className={styles.formGroup}>
                             <span>Deskripsi Singkat</span>
                             <input
                             type= "text"
@@ -173,7 +174,7 @@ export default function KegiatanPage(){
                             required
                             />
                         </div>
-                        <div>
+                        <div className={styles.formGroup}>
                             <span>Tautan Pendaftaran</span>
                             <input
                             type= "text"
@@ -182,14 +183,14 @@ export default function KegiatanPage(){
                             required
                             />
                         </div>
-                        <button type="submit">
+                        <button className={styles.submitButton} type="submit">
                             Simpan
                         </button>
                         <p>{msg}</p>
                     </form>
                 </div>
             )}
-
+        <div className={styles.tableWrapper}>
             <table border="1">
                 <thead>
                     <tr>
@@ -216,8 +217,8 @@ export default function KegiatanPage(){
                             <td>{item.deskripsiSingkat}</td>
                             <td>{item.tautanPendaftaran}</td>
                             <td>
-                            <button onClick={() => handleEdit(item)}>Edit</button>
-                            <button onClick={() => handleDelete(item.id)}>Hapus</button>
+                            <button className={styles.editButton} onClick={() => handleEdit(item)}>Edit</button>
+                            <button className={styles.deleteButton} onClick={() => handleDelete(item.id)}>Hapus</button>
                             </td>
                         </tr>
                     ))}
@@ -228,6 +229,7 @@ export default function KegiatanPage(){
                     )}
                 </tbody>
             </table>
+        </div>
         </div>
     )
 }
