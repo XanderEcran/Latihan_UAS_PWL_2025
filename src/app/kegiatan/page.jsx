@@ -105,6 +105,9 @@ export default function KegiatanPage(){
                 onClick={() => setFormVisible(!formVisible)}>
                 {formVisible ? "Tutup Form" : "Tambah Data"}
             </button>
+            <button>
+                <a className= {styles.buttonToggle} href="http://localhost:3000/organisasi">Menuju ke organisasi</a>
+            </button>
 
             {formVisible && (
                 <div className={styles.formWrapper}>
