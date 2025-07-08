@@ -29,6 +29,5 @@ model kegiatan{
   lokasi String
   jenisKegiatan String
   deskripsiSingkat String
-  tautanPendaftaran String?
   organisasi organisasi @relation(fields: [idOrganisasi], references: [id])
 }

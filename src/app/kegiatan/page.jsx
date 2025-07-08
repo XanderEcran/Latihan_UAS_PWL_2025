@@ -12,7 +12,6 @@ export default function KegiatanPage(){
     const [lokasi, setLokasi] = useState('');
     const [jenisKegiatan, setJenisKegiatan] = useState('');
     const [deskripsiSingkat, setDeskripsiSingkat] = useState('');
-    const [tautanPendaftaran, setTautanPendaftaran] = useState('');
     const [editId, setEditId] = useState(null);
     const [msg, setMsg] = useState('');
 
@@ -33,7 +32,7 @@ export default function KegiatanPage(){
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!judulKegiatan || !idOrganisasi || !tanggalKegiatan || !lokasi || !jenisKegiatan || !deskripsiSingkat || !tautanPendaftaran){
+        if (!judulKegiatan || !idOrganisasi || !tanggalKegiatan || !lokasi || !jenisKegiatan || !deskripsiSingkat){
             setMsg('Semua Filed Wajib Diisi');
             return;
         }
@@ -53,7 +52,6 @@ export default function KegiatanPage(){
             lokasi,
             jenisKegiatan,
             deskripsiSingkat,
-            tautanPendaftaran,
         };
 
         const method = editId? 'PUT' : 'POST';
@@ -71,7 +69,6 @@ export default function KegiatanPage(){
             setLokasi('');
             setJenisKegiatan('');
             setDeskripsiSingkat('');
-            setTautanPendaftaran('');
             setEditId(null);
             setFormVisible(false);
             fetchKegiatans();
@@ -86,7 +83,6 @@ export default function KegiatanPage(){
         setLokasi(item.lokasi);
         setJenisKegiatan(item.jenisKegiatan);
         setDeskripsiSingkat(item.deskripsiSingkat);
-        setTautanPendaftaran(item.tautanPendaftaran);
         setEditId(item.id);
         setFormVisible(true);
     }
@@ -174,15 +170,6 @@ export default function KegiatanPage(){
                             required
                             />
                         </div>
-                        <div className={styles.formGroup}>
-                            <span>Tautan Pendaftaran</span>
-                            <input
-                            type= "text"
-                            value={tautanPendaftaran}
-                            onChange={(e) => setTautanPendaftaran(e.target.value)}
-                            required
-                            />
-                        </div>
                         <button className={styles.submitButton} type="submit">
                             Simpan
                         </button>
@@ -201,7 +188,6 @@ export default function KegiatanPage(){
                         <th>Lokasi</th>
                         <th>Jenis Kegiatan</th>
                         <th>Deskripsi</th>
-                        <th>Tautan Pendaftaran</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -215,7 +201,6 @@ export default function KegiatanPage(){
                             <td>{item.lokasi}</td>
                             <td>{item.jenisKegiatan}</td>
                             <td>{item.deskripsiSingkat}</td>
-                            <td>{item.tautanPendaftaran}</td>
                             <td>
                             <button className={styles.editButton} onClick={() => handleEdit(item)}>Edit</button>
                             <button className={styles.deleteButton} onClick={() => handleDelete(item.id)}>Hapus</button>
@@ -224,7 +209,7 @@ export default function KegiatanPage(){
                     ))}
                     {kegiatans.length === 0 && (
                         <tr>
-                            <td colSpan="9">Belum ada data</td>
+                            <td colSpan="8">Belum ada data</td>
                         </tr>
                     )}
                 </tbody>
