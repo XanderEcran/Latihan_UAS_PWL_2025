@@ -100,13 +100,14 @@ export default function KegiatanPage(){
 
     return (
         <div className={styles.container}>
+            <h1 className={styles.title}>Rekap Kegiatan</h1>
             <button
                 className={styles.buttonToggle}
                 onClick={() => setFormVisible(!formVisible)}>
                 {formVisible ? "Tutup Form" : "Tambah Data"}
             </button>
             <button>
-                <a className= {styles.buttonToggle} href="http://localhost:3000/organisasi">Menuju ke organisasi</a>
+                <a className= {styles.buttonToggle} href="http://localhost:3000/organisasi">Menuju ke Organisasi</a>
             </button>
 
             {formVisible && (
